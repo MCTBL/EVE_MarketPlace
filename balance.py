@@ -84,7 +84,8 @@ if __name__ == "__main__":
     getCharacterIDAndName()
     url = baseUrl + "/legacy/characters/{}/wallet/?datasource={}&token={}".format(
         str(userID), datasource, access_token)
-    balance = float(json.loads(req.get(url).content))
+    balance = str('{:,}'.format(
+        round(float(json.loads(req.get(url).content)), 2)))
     nowtime = datetime.datetime.now(tz=tz.gettz(
         "Asia/China")).strftime("%Y-%m-%d %H:%M:%S")
-    sendInfo(nowtime, userName, str(round(balance, 2)))
+    sendInfo(nowtime, userName, balance)
