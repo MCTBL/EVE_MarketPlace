@@ -1,6 +1,5 @@
 import requests as req
 import json
-import json
 import datetime
 from dateutil import tz
 import os
