@@ -1,0 +1,39 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: auto send balance
+
+on:
+  schedule:
+    # 设置启动时间，为 UTC 时间, UTC23点 对应北京时间早7点
+    - cron : '00 16 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Shanghai
+    steps:
+    
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+        
+    - name: send text
+      run: |
+        python balance.py
+      env:
+        REFRESH_TOKEN : ${{ secrets.REFRESH_TOKEN }}
+        APP_ID : ${{ secrets.APP_ID }}
+        APP_Secret : ${{ secrets.APP_Secret }}
+        OPEN_ID : ${{ secrets.OPEN_ID }}
+        TEMPLATE_ID : ${{ secrets.TEMPLATE_ID }}
+        CLIENT_ID : ${{ secrets.CLIENT_ID }}
